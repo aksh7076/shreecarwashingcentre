@@ -23,7 +23,9 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Professional foam wash and interior cleaning at your location. Call 8698601101 or book online." },
       { property: "og:title", content: "Foam Car Wash & Interior Detailing" },
       { property: "og:description", content: "Book foam wash and interior cleaning at your location." },
+      { property: "og:url", content: "https://shreecarwashingcentre.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://shreecarwashingcentre.lovable.app/" }],
   }),
   component: Index,
 });
@@ -114,16 +116,16 @@ function BookingForm() {
         </div>
       ) : (
         <form onSubmit={onSubmit} className="mt-6 grid gap-4">
-          <input name="name" required maxLength={100} placeholder="Your name" className={field} />
-          <input name="phone" required type="tel" minLength={6} maxLength={20} placeholder="Mobile number" className={field} />
-          <input name="car_model" maxLength={100} placeholder="Car model (e.g. Swift, Creta)" className={field} />
-          <select name="service" required defaultValue="" className={field}>
+          <label className="grid gap-1 text-sm font-medium">Your name<input name="name" required maxLength={100} placeholder="Your name" className={field} /></label>
+          <label className="grid gap-1 text-sm font-medium">Mobile number<input name="phone" required type="tel" minLength={6} maxLength={20} placeholder="Mobile number" className={field} /></label>
+          <label className="grid gap-1 text-sm font-medium">Car model<input name="car_model" maxLength={100} placeholder="Car model (e.g. Swift, Creta)" className={field} /></label>
+          <label className="grid gap-1 text-sm font-medium">Service<select name="service" required defaultValue="" className={field}>
             <option value="" disabled>Your service</option>
             {SERVICES.map((s) => <option key={s.name}>{s.name}</option>)}
-          </select>
-          <input name="location" required maxLength={300} placeholder="Customer location / address" className={field} />
-          <textarea name="requirement" maxLength={1000} rows={3} placeholder="Customer requirement (anything specific?)" className={field} />
-          <input name="preferred_date" type="date" className={field} />
+          </select></label>
+          <label className="grid gap-1 text-sm font-medium">Customer location / address<input name="location" required maxLength={300} placeholder="Customer location / address" className={field} /></label>
+          <label className="grid gap-1 text-sm font-medium">Customer requirement<textarea name="requirement" maxLength={1000} rows={3} placeholder="Customer requirement (anything specific?)" className={field} /></label>
+          <label className="grid gap-1 text-sm font-medium">Preferred date<input name="preferred_date" type="date" className={field} /></label>
           {status === "error" && <p className="text-destructive">Something went wrong. Please call {PHONE}.</p>}
           <Button type="submit" size="lg" disabled={status === "sending"} className="shadow-glow">
             {status === "sending" ? "Sending..." : "Confirm Booking"}
