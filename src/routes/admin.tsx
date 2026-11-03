@@ -130,13 +130,8 @@ function Dashboard({ userId }: { userId: string }) {
   const navigate = useNavigate();
 
   function setParam(patch: Partial<Search>) {
-    navigate({
-      search: (prev) => ({
-        status: patch.status ?? prev.status ?? ALL_STATUS,
-        q: patch.q ?? prev.q ?? "",
-      }),
-      replace: true,
-    });
+    const next: Search = { status: patch.status ?? status, q: patch.q ?? q };
+    navigate({ to: "/admin", search: next, replace: true });
   }
 
   async function load() {

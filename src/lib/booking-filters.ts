@@ -53,7 +53,7 @@ export function countByStatus(rows: Booking[]): Record<string, number> {
   const counts: Record<string, number> = { [ALL_STATUS]: rows.length };
   for (const s of BOOKING_STATUSES) counts[s] = 0;
   for (const r of rows) {
-    if (r.status in counts) counts[r.status] += 1;
+    if (r.status in counts) counts[r.status] = (counts[r.status] ?? 0) + 1;
   }
   return counts;
 }
