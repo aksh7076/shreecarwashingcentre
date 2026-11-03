@@ -49,7 +49,7 @@ describe("filterBookings", () => {
   it("keeps only the booking whose status matches the filter", () => {
     const confirmed = filterBookings(rows, { status: "confirmed", q: "" });
     expect(confirmed.map((b) => b.id)).toEqual(["id-2"]);
-    expect(confirmed[0].status).toBe("confirmed");
+    expect(confirmed[0]?.status).toBe("confirmed");
   });
 
   it("finds a booking by customer name", () => {

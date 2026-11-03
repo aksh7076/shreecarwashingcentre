@@ -75,7 +75,7 @@ function Index() {
 
       <footer className="border-t px-5 py-10 text-center text-sm text-muted-foreground">
         <p>📞 <a href={`tel:${PHONE}`} className="text-foreground">{PHONE}</a> · ✉️ <a href={`mailto:${EMAIL}`} className="text-foreground">{EMAIL}</a></p>
-        <p className="mt-3"><Link to="/admin" className="underline">Admin panel</Link></p>
+        <p className="mt-3"><Link to="/admin" search={{ status: "all", q: "" }} className="underline">Admin panel</Link></p>
       </footer>
     </main>
   );

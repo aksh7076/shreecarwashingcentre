@@ -25,8 +25,8 @@ export const Route = createFileRoute("/admin")({
     ],
   }),
   validateSearch: (search): Search => ({
-    status: typeof search.status === "string" && search.status ? search.status : ALL_STATUS,
-    q: typeof search.q === "string" ? search.q : "",
+    status: typeof search["status"] === "string" && search["status"] ? search["status"] : ALL_STATUS,
+    q: typeof search["q"] === "string" ? search["q"] : "",
   }),
   component: Admin,
 });
@@ -130,7 +130,13 @@ function Dashboard({ userId }: { userId: string }) {
   const navigate = useNavigate();
 
   function setParam(patch: Partial<Search>) {
-    navigate({ search: (prev: Search) => ({ ...prev, ...patch }), replace: true });
+    navigate({
+      search: (prev) => ({
+        status: patch.status ?? prev.status ?? ALL_STATUS,
+        q: patch.q ?? prev.q ?? "",
+      }),
+      replace: true,
+    });
   }
 
   async function load() {
