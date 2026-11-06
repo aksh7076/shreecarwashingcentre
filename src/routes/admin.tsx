@@ -123,6 +123,25 @@ function Login() {
   );
 }
 
+function SiteToggle() {
+  const [open, setOpen] = useState<boolean | null>(null);
+  useEffect(() => {
+    supabase.from("site_settings").select("is_open").eq("id", 1).maybeSingle()
+      .then(({ data }) => setOpen(data?.is_open ?? true));
+  }, []);
+  async function toggle() {
+    const next = !open;
+    const { error } = await supabase.from("site_settings").update({ is_open: next, updated_at: new Date().toISOString() }).eq("id", 1);
+    if (!error) setOpen(next);
+  }
+  if (open === null) return null;
+  return (
+    <Button size="sm" variant={open ? "default" : "destructive"} onClick={toggle}>
+      Website: {open ? "ON" : "OFF"}
+    </Button>
+  );
+}
+
 function Dashboard({ userId }: { userId: string }) {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [rows, setRows] = useState<Booking[]>([]);
@@ -178,7 +197,10 @@ function Dashboard({ userId }: { userId: string }) {
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-4xl">Bookings ({rows.length})</h1>
-        {signOut}
+        <div className="flex items-center gap-2">
+          <SiteToggle />
+          {signOut}
+        </div>
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
