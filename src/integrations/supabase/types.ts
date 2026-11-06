@@ -53,6 +53,24 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          id: number
+          is_open: boolean
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          is_open?: boolean
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          is_open?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
