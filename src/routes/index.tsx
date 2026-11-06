@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/foam-wash.jpg";
@@ -31,6 +31,20 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [open, setOpen] = useState<boolean | null>(null);
+  useEffect(() => {
+    supabase.from("site_settings").select("is_open").eq("id", 1).maybeSingle()
+      .then(({ data }) => setOpen(data?.is_open ?? true));
+  }, []);
+  if (open === false) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-5 text-center text-foreground">
+        <h1 className="font-display text-5xl text-primary">We're closed right now</h1>
+        <p className="text-muted-foreground">Online booking is off for now. Please call us at <a href={`tel:${PHONE}`} className="text-foreground underline">{PHONE}</a>.</p>
+        <Link to="/admin" search={{ status: "all", q: "" }} className="text-sm text-muted-foreground underline">Admin panel</Link>
+      </main>
+    );
+  }
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-4">
