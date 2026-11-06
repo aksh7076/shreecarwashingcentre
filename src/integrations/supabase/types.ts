@@ -101,6 +101,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_site_owner: { Args: never; Returns: boolean }
     }
     Enums: {
       app_role: "admin"
