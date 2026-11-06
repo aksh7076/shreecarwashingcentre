@@ -65,7 +65,18 @@ function Admin() {
 
   if (!ready) return <Shell><p className="text-muted-foreground">Loading…</p></Shell>;
   if (!session) return <Shell><Login /></Shell>;
-  return <Shell><Dashboard userId={session.user.id} /></Shell>;
+  const isOwner = OWNER_EMAILS.includes((session.user.email ?? "").toLowerCase());
+  return (
+    <Shell>
+      {isOwner && (
+        <div className="mb-6 flex items-center gap-3 rounded-xl border bg-card p-4">
+          <span className="text-sm text-muted-foreground">Website control (owner only):</span>
+          <SiteToggle />
+        </div>
+      )}
+      <Dashboard userId={session.user.id} />
+    </Shell>
+  );
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
@@ -122,6 +133,8 @@ function Login() {
     </form>
   );
 }
+
+const OWNER_EMAILS = ["akashmanchalwar12@gmail.com", "akashmanchalwar@12gmail.com"];
 
 function SiteToggle() {
   const [open, setOpen] = useState<boolean | null>(null);
@@ -197,10 +210,7 @@ function Dashboard({ userId }: { userId: string }) {
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-4xl">Bookings ({rows.length})</h1>
-        <div className="flex items-center gap-2">
-          <SiteToggle />
-          {signOut}
-        </div>
+        {signOut}
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
